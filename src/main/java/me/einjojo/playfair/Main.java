@@ -64,7 +64,7 @@ public class Main {
     private void showSelector() {
         showSelections();
         while(true) {
-            System.out.println("\nEnter a number: ");
+            System.out.print("\nEnter a number: ");
             String input = scanner.next();
 
             switch (input) {
