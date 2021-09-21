@@ -84,5 +84,14 @@ public class Matrix {
         return matrix[r][col];
     }
 
+    public char getPreviousHorizontalChar(int row, int col) {
+        int c = (col-1 == -1) ? matrix[0].length-1 : col-1;
+        return matrix[row][c];
+    }
+
+    public char getPreviousVerticalChar(int row, int col) {
+        int r = (row-1 == -1) ? matrix.length-1 : row-1;
+        return matrix[r][col];
+    }
 
 }

@@ -19,10 +19,15 @@ public class Main {
     }
 
     private void initPlayfair() {
-        System.out.print("Please enter a key: ");
+        System.out.print("[QUESTION] Please enter a key: ");
 
         String key = scanner.next();
-        this.playfair = new Playfair(key);
+        try {
+            this.playfair = new Playfair(key);
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+            initPlayfair();
+        }
     }
 
     private void clearConsole() {
@@ -48,7 +53,7 @@ public class Main {
     private void showSelections() {
         System.out.println("[USAGE]");
         System.out.println("1. Encrypt a text");
-    //    System.out.println("2. Decrypt a cipher");
+        System.out.println("2. Decrypt a cipher");
         System.out.println("3. Change Key");
         System.out.println("4. Clear the console");
         System.out.println("5. Print Matrix");
@@ -58,7 +63,7 @@ public class Main {
     private void showSelector() {
         showSelections();
         while(true) {
-            System.out.println("Enter a number: ");
+            System.out.println("\nEnter a number: ");
             String input = scanner.next();
 
             switch (input) {
@@ -69,7 +74,7 @@ public class Main {
                     encryptForm();
                     break;
                 case "2":
-                    //TODO: Implement decrypter
+                    decryptForm();
                     break;
                 case "3":
                     changeKeyForm();
@@ -82,7 +87,7 @@ public class Main {
                     printMatrix();
                     break;
                 default:
-                    System.out.printf("Unknown command: %s\n", input);
+                    System.out.printf("[ERROR] Unknown command: %s\n", input);
             }
         }
     }
@@ -95,19 +100,43 @@ public class Main {
     }
 
     private void changeKeyForm() {
-        System.out.print("Enter new key: ");
-        String key = scanner.next();
-        playfair.setKey(key);
-        System.out.println("The key was successfully changed!");
+        try {
+            System.out.print("[QUESTION] Enter new key: ");
+            String key = scanner.next();
+            playfair.setKey(key);
+            System.out.println("[SUCCESS] The key was successfully changed!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+            changeKeyForm();
+        }
     }
 
     private void encryptForm() {
-        Scanner tScanner = new Scanner(System.in);
-        System.out.println("Enter the text you want to encrypt: ");
-        String text = tScanner.nextLine();
-        String e = playfair.encrypt(text);
-        System.out.println(e);
-        System.out.println();
+        try {
+            Scanner tScanner = new Scanner(System.in);
+            System.out.println("[QUESTION] Enter the text you want to encrypt: ");
+            String text = tScanner.nextLine();
+            String e = playfair.encrypt(text);
+            System.out.println("[SUCCESS] The text was successfully encrypted");
+            System.out.println(e);
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+            encryptForm();
+        }
+
+    }
+
+    private void decryptForm() {
+        try {
+            System.out.println("[QUESTION] Enter the cipher you want to decrypt: ");
+            String cipher = scanner.next();
+            String d = playfair.decrypt(cipher);
+            System.out.println("[SUCCESS] The text was successfully decrypted");
+            System.out.println(d);
+        } catch (IllegalArgumentException e) {
+            System.out.println("[ERROR] " + e.getMessage());
+            encryptForm();
+        }
 
     }
 }
